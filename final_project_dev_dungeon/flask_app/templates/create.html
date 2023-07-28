@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <title>Add a Project</title>
+</head>
+<body>
+    <div class="nav-infinite-bg">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/dashboard" class="nav-btn">View All Projects</a> |
+                <a href="/dashboard/myprojects" class="nav-btn">View My Projects</a> |
+                <a href="/dashboard/myfavorites" class="nav-btn">View My Favorites</a>
+            </div>
+            <div class="nav-right">
+                <a href="/logout" class="nav-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="body-container">
+            <form class="card-container" action="/create/project" method="POST" enctype="multipart/form-data">
+                <h3 class="card-headline">{{user.username}}'s Journey Update:</h3>
+                <div class="form-row">
+                    <div class="col-auto">
+                        <label for="project_name" class="col-form-label">Project Name:</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control" name="project_name" placeholder="Project Name">
+                    </div>
+                    <div class="error_message">
+                        {% with messages = get_flashed_messages(category_filter=['project_name']) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="col-auto">
+                        <label for="image_path" class="col-form-label">Project Image:</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type=file name="ProjectImg" class="form-control form-placeholder">
+                    </div>
+                    <div class="error_message">
+                        {% with messages = get_flashed_messages(category_filter=['image_path']) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-auto">
+                        <label for="skill_level" class="col-form-label">Skill Level:</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="radio" name="skill_level" id="easy" value="Easy">
+                        <label for="easy">Easy</label>
+
+                        <input type="radio" name="skill_level" id="medium" value="Medium">
+                        <label for="medium">Medium</label>
+
+                        <input type="radio" name="skill_level" id="expert" value="Expert">
+                        <label for="expert">Expert</label>
+                    </div>
+                    <div class="error_message">
+                        {% with messages = get_flashed_messages(category_filter=['skill_level']) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-auto">
+                        <label for="type" class="col-form-label">Engine:</label>
+                    </div>
+                    <div>
+                        <select id="type" name="type" class="form-control">
+                            <option value="" disabled selected hidden>Select Engine</option>
+                            <option value="Godot">Godot</option>
+                            <option value="Unity">Unity</option>
+                            <option value="Unreal">Unreal</option>
+                            <option value="Gamemaker">Gamemaker</option>
+                            <option value="Scratch">Scratch</option>
+                            <option value="Game Maker">Game Maker</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="error_message">
+                        {% with messages = get_flashed_messages(category_filter=['type']) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-auto">
+                        <label for="description" class="col-form-label">Description:</label>
+                    </div>
+                    <div class="col-auto">
+                        <textarea class="form-control" name="description" rows="5" cols="30" placeholder="Add Description."></textarea>
+                    </div>
+                    <div class="error_message">
+                        {% with messages = get_flashed_messages(category_filter=['description']) %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <p>{{message}}</p>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <input type="submit" value="Create" class="btn btn-success btn-main">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

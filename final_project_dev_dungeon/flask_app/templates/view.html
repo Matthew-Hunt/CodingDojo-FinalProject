@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <title>Project</title>
+</head>
+<body>
+    <div class="nav-infinite-bg">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/dashboard" class="nav-btn">View All Projects</a> |
+                <a href="/dashboard/myprojects" class="nav-btn">View My Projects</a> |
+                <a href="/dashboard/myfavorites" class="nav-btn">View My Favorites</a>
+            </div>
+            <div class="nav-right">
+                <a href="/logout" class="nav-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="body-container">
+            <div class="row justify-content-center">
+                <div class="col-auto card-container">
+                    <h3 class="card-headline">{{ project.project_name }}</h3>
+                    <p>Creator: {{ project.user.username }}</p>
+
+                    <table class="table table-hover card-table">
+                        <tr>
+                            <th class="col">Skill Level:</th>
+                            <td class="tbody">{{ project.skill_level }}</td>
+                        </tr>
+                        <tr>
+                            <th class="col">Engine:</th>
+                            <td class="tbody">{{ project.type }}</td>
+                        </tr>
+                        <tr>
+                            <th class="col">Description:</th>
+                            <td class="tbody">{{ project.description }}</td>
+                        </tr>
+                    </table>
+                    <img class = "image-full" src="/static/user_img/{{ project.image_path }}">
+                    <div class="footer-container">
+                        <div>
+                            <a href="/dashboard" class="btn btn-success btn-main">Return to All Projects</a>
+                        </div>
+                        <div>
+                            {% if project.user_id == session.user_id %}
+                            <a href="/edit/{{ project.id }}" class="text-cta">Edit</a>
+                            <span>|</span>
+                            <a href="/destroy/project/{{ project.id }}" class="text-danger">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+    <title>The DevDungeon</title>
+</head>
+<body>
+    <div class="nav-infinite-bg">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/dashboard" class="nav-btn">View All Projects</a> |
+                <a href="/dashboard/myprojects" class="nav-btn">View My Projects</a> |
+                <a href="/dashboard/myfavorites" class="nav-btn">View My Favorites</a>
+            </div>
+            <div class="nav-right">
+                <a href="/logout" class="nav-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div class="dashboard-hero">
+            <img class="header-img" src="/static/img/knight_header.jpg" alt="Pixel Knight">
+            <h3 class="header-subhead">Welcome, {{user.username}}!</h3>
+            <h1 class="header-headline">Browse the DevDungeon</h1>
+        </div>
+
+        <div class="dashboard-body">
+            <div class="col-auto">
+                <div class="dash-box-container">
+                    {%for project in projects%}
+                        <div class="dash-box-box" id="{{project.id}}">
+                            <div class="dash-box-header">
+                                <div class="dash-header-left">
+                                    <p class="dash-box-title">{{ project.project_name }}</p>
+                                </div>
+                                <div class="dash-header-right">
+                                    <p>
+                                        {% if session.user_id not in project.favorited_by and project.favorited_by|length == 0%}
+                                            <a href="/favorite/{{project.id}}/{{user.id}}" class="icon-unfav">&#9825;</a>
+                                        {% elif session.user_id not in project.favorited_by %}
+                                            <a href="/favorite/{{project.id}}/{{user.id}}" class="icon-unfav">&#9825;{{ project.favorited_by|length }}</a>
+                                        {% elif session.user_id in project.favorited_by and project.favorited_by|length == 1%}
+                                            <a href="/unfavorite/{{project.id}}/{{user.id}}" class="icon-fav">&hearts;</a>
+                                        {% else %}
+                                            <a href="/unfavorite/{{project.id}}/{{user.id}}" class="icon-fav">&hearts;{{ project.favorited_by|length }}</a>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="/project/{{ project.id }}">
+                                <img class = "dash-box-img" src="/static/user_img/{{ project.image_path }}">
+                            </a>
+                            <div class="dash-box-content">
+                                <p class="dash-box-body">Type: {{ project.type }}</p>
+                                <p class="dash-box-body">Skill: {{ project.skill_level }}</p>
+
+
+                                <p>
+                                    <a href="/project/{{ project.id }}" class="dash-box-body dash-text-cta">View</a>
+                                    {% if project.user_id == session.user_id %}
+                                        | <a href="/edit/{{ project.id }}" class="dash-box-body dash-text-cta">Edit</a>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
+            </div>
+
+            <div class="footer-container">
+                <div>
+                    <a href="/new" class="btn btn-success btn-main">Add a New Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
